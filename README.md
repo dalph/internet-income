@@ -1,60 +1,102 @@
-# Internet Income - Docker Environment
+# Internet Income - Система управления интернет-доходами
 
-Docker окружение для разработки с PHP 8.3, MySQL 8.0 и Nginx.
-
-## Компоненты
-
-- **PHP 8.3** - с расширениями для работы с MySQL, GD, ZIP и другими
-- **MySQL 8.0** - база данных
-- **Nginx** - веб-сервер
-- **Composer** - менеджер зависимостей PHP
-
-## Быстрый старт
-
-1. Клонируйте репозиторий
-2. Запустите контейнеры:
-   ```bash
-   make up
-   ```
-3. Откройте браузер: http://localhost
-
-## Команды Makefile
-
-- `make start` - быстрый запуск (сборка + запуск)
-- `make up` - запуск контейнеров
-- `make down` - остановка контейнеров
-- `make build` - сборка контейнеров
-- `make restart` - перезапуск контейнеров
-- `make restart-full` - полный перезапуск (остановка + запуск)
-- `make logs` - просмотр логов
-- `make shell` - вход в контейнер PHP
-- `make composer cmd="install"` - выполнение composer команд
-- `make php cmd="--version"` - выполнение PHP команд
-
-## Настройки базы данных
-
-- **Хост**: db
-- **Порт**: 3306
-- **База данных**: internet_income
-- **Пользователь**: internet_income
-- **Пароль**: password
-- **Root пароль**: root
+Проект построен на базе Yii2 расширенного шаблона с разделением на frontend и backend.
 
 ## Структура проекта
 
+- `frontend/` - Публичная часть сайта (домен: mii.local)
+- `backend/` - Панель администратора (домен: admin.mii.local)
+- `common/` - Общие компоненты и модели
+- `console/` - Консольные команды
+- `docker/` - Docker конфигурация
+
+## Требования
+
+- Docker
+- Docker Compose
+- Traefik (для роутинга доменов)
+
+## Установка и запуск
+
+1. Клонируйте репозиторий:
+```bash
+git clone <repository-url>
+cd internet-dohod
 ```
-├── docker/
-│   ├── mysql/
-│   │   └── my.cnf
-│   ├── nginx/
-│   │   └── conf.d/
-│   │       └── app.conf
-│   └── php/
-│       ├── Dockerfile
-│       └── local.ini
-├── public/
-│   └── index.php
-├── docker-compose.yml
-├── Makefile
-└── README.md
-``` 
+
+2. Запустите проект:
+```bash
+docker-compose -f docker-compose.yml up -d
+```
+
+3. Инициализируйте Yii2 приложение:
+```bash
+docker-compose -f docker-compose.yml exec app php /var/www/init --env=Development --overwrite=All
+```
+
+4. Запустите миграции:
+```bash
+docker-compose -f docker-compose.yml exec app php /var/www/yii migrate --interactive=0
+```
+
+## Доступ к приложению
+
+- **Frontend**: https://mii.local
+- **Backend**: https://admin.mii.local
+
+## База данных
+
+- **Хост**: localhost:3306
+- **База данных**: internet_income
+- **Пользователь**: internet_income
+- **Пароль**: password
+
+## Полезные команды
+
+### Установка зависимостей
+```bash
+docker-compose -f docker-compose.yml exec app composer install
+```
+
+### Запуск консольных команд
+```bash
+docker-compose -f docker-compose.yml exec app php /var/www/yii <command>
+```
+
+### Просмотр логов
+```bash
+docker-compose -f docker-compose.yml logs -f
+```
+
+## Разработка
+
+### Структура приложения
+
+Проект использует расширенный шаблон Yii2 с разделением на:
+
+- **Frontend** - публичная часть для пользователей
+- **Backend** - административная панель
+- **Common** - общие модели и компоненты
+- **Console** - консольные команды
+
+### Конфигурация
+
+Основные конфигурационные файлы:
+- `common/config/main-local.php` - общие настройки
+- `frontend/config/main-local.php` - настройки frontend
+- `backend/config/main-local.php` - настройки backend
+
+### База данных
+
+Для работы с базой данных используются миграции:
+```bash
+# Создание новой миграции
+docker-compose -f docker-compose.yml exec app php /var/www/yii migrate/create <migration_name>
+
+# Запуск миграций
+docker-compose -f docker-compose.yml exec app php /var/www/yii migrate --interactive=0
+```
+
+## Лицензия
+
+MIT License 
