@@ -38,6 +38,7 @@ AppAsset::register($this);
         ['label' => 'Главная', 'url' => ['/site/index']],
         ['label' => 'О проекте', 'url' => ['/site/about']],
         ['label' => 'Контакты', 'url' => ['/site/contact']],
+        ['label' => 'Реферальные ссылки', 'url' => ['/referral-link/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];

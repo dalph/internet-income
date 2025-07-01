@@ -88,3 +88,21 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+/* Ошибки в формах */
+.has-error .form-control,
+.has-error .form-label,
+.has-error .help-block,
+.has-error .invalid-feedback {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+/* Для bootstrap5 */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+    color: #dc3545 !important;
+}
