@@ -5,6 +5,10 @@ npm-debug.log
 # Private data
 .env
 
+
+# Composer dependencies
+vendor/
+
 # Logs
 modules/logger/logs
 *.log
