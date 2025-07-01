@@ -1,0 +1,11 @@
+# Node modules, npm logs
+node_modules
+npm-debug.log
+
+# Private data
+.env
+
+# Logs
+modules/logger/logs
+*.log
+*.json
