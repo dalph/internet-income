@@ -59,7 +59,7 @@ class ReferralLinkService
             return false;
         }
         
-        return $model->delete();
+        return 1 === $model->delete();
     }
 
     /**
@@ -79,7 +79,7 @@ class ReferralLinkService
         
         $model->status = $status;
         
-        return $model->save();
+        return false !== $model->save();
     }
 
     /**
@@ -95,7 +95,7 @@ class ReferralLinkService
         
         $model->is_top = (boolean) $isTop;
         
-        return $model->save();
+        return false !== $model->save();
     }
 
     /**
@@ -164,6 +164,7 @@ class ReferralLinkService
         
         if (isset($params['is_top'])) {
             $isTop = (boolean) $params['is_top'];
+            
             if ($isTop) {
                 $query->top();
             } else {
