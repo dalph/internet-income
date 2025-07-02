@@ -1,5 +1,7 @@
 # Internet Income - Система управления интернет-доходами
 
+[![codecov](https://codecov.io/gh/dalph/internet-income/branch/main/graph/badge.svg)](https://codecov.io/gh/dalph/internet-income)
+
 Проект построен на базе Yii2 расширенного шаблона с разделением на frontend и backend.
 
 ## Структура проекта
@@ -99,4 +101,21 @@ docker-compose -f docker-compose.yml exec app php /var/www/yii migrate --interac
 
 ## Лицензия
 
-MIT License 
+MIT License
+
+## Покрытие кода тестами
+
+Для локального анализа покрытия используйте:
+```bash
+make test-coverage
+```
+
+После выполнения команда сгенерирует отчёты:
+- HTML: `common/tests/_output/coverage/index.html`
+- XML: `common/tests/_output/coverage.xml`
+
+Для настройки Codecov:
+1. Перейдите на [codecov.io](https://codecov.io)
+2. Подключите ваш GitHub репозиторий
+3. Добавьте токен в секреты GitHub (CODECOV_TOKEN)
+4. После этого можно будет добавить бейдж покрытия обратно в README
