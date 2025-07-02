@@ -60,6 +60,7 @@ jobs:
         cp environments/dev/console/config/main-local.php console/config/
         cp environments/dev/console/config/params-local.php console/config/
         cp environments/dev/console/config/test-local.php console/config/
+        cp environments/dev/backend/config/test-local.php backend/config/
 
     - name: Run database migrations
       run: php yii_test migrate --interactive=0
