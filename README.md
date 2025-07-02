@@ -1,6 +1,6 @@
 # Internet Income - Система управления интернет-доходами
 
-[![codecov](https://codecov.io/gh/dalph/internet-income/branch/main/graph/badge.svg)](https://codecov.io/gh/dalph/internet-income)
+[![codecov](https://codecov.io/gh/dalph/internet-income/branch/master/graph/badge.svg)](https://codecov.io/gh/dalph/internet-income)
 
 Проект построен на базе Yii2 расширенного шаблона с разделением на frontend и backend.
 
