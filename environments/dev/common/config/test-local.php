@@ -11,8 +11,5 @@ return [
             'password' => 'password',
             'charset' => 'utf8',
         ],
-        'request' => [
-            'cookieValidationKey' => 'test_secret_key',
-        ],
     ],
 ];
