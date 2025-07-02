@@ -47,4 +47,13 @@ test:
 	docker-compose -f docker-compose.yml exec db sh -c 'MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -u root --silent -e "GRANT ALL PRIVILEGES ON internet_income_test.* TO \"internet_income\"@\"%\";"'
 	docker-compose -f docker-compose.yml exec db sh -c 'MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -u root --silent -e "FLUSH PRIVILEGES;"'
 	docker-compose -f docker-compose.yml exec app php yii_test migrate --interactive=0
-	docker-compose -f docker-compose.yml exec app vendor/bin/codecept run unit -c common 
+	docker-compose -f docker-compose.yml exec app vendor/bin/codecept run unit -c common
+
+# Запуск тестов с покрытием кода
+test-coverage:
+	rm -rf common/tests/_output/coverage common/tests/_output/coverage.xml common/tests/_output/coverage.html
+	docker-compose -f docker-compose.yml exec db sh -c 'MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -u root --silent -e "CREATE DATABASE IF NOT EXISTS internet_income_test CHARACTER SET utf8 COLLATE utf8_unicode_ci;"'
+	docker-compose -f docker-compose.yml exec db sh -c 'MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -u root --silent -e "GRANT ALL PRIVILEGES ON internet_income_test.* TO \"internet_income\"@\"%\";"'
+	docker-compose -f docker-compose.yml exec db sh -c 'MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -u root --silent -e "FLUSH PRIVILEGES;"'
+	docker-compose -f docker-compose.yml exec app php yii_test migrate --interactive=0
+	docker-compose -f docker-compose.yml exec app vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml -c common 

@@ -9,7 +9,7 @@ npm-debug.log
 # Composer dependencies
 vendor/
 
-# Logs
-modules/logger/logs
-*.log
-*.json
+# Coverage reports
+tests/_output/coverage/
+tests/_output/coverage.xml
+tests/_output/coverage.html

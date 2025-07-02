@@ -12,6 +12,10 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
+# Установка Xdebug для покрытия кода
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
