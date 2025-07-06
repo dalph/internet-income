@@ -11,5 +11,6 @@ return [
         'request' => [
             'cookieValidationKey' => 'test',
         ],
+        'db' => require dirname(__DIR__) . '/../common/config/db.php',
     ],
 ];

@@ -65,13 +65,17 @@ AppAsset::register($this);
 </header>
 <?php endif; ?>
 
-<main role="main" class="flex-shrink-0">
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+<main role="main">
+    <div class="site-bg-flex">
+        <div class="site-bg-left"></div>
+        <div class="site-bg-center">
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <?= Alert::widget() ?>
+            <?= $content ?>
+        </div>
+        <div class="site-bg-right"></div>
     </div>
 </main>
 

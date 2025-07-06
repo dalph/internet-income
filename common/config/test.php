@@ -7,5 +7,6 @@ return [
             'class' => \yii\web\User::class,
             'identityClass' => 'common\models\User',
         ],
+        'db' => require __DIR__ . '/db.php',
     ],
 ];

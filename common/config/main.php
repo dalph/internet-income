@@ -16,6 +16,7 @@ return [
         'cache' => [
             'class' => FileCache::class,
         ],
+        'db' => require __DIR__ . '/db.php',
     ],
     'container' => [
         'definitions' => [

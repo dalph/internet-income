@@ -18,6 +18,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'db' => require dirname(__DIR__) . '/../common/config/db.php',
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'cookieValidationKey' => $params['cookieValidationKeyFrontend'],

@@ -13,6 +13,7 @@ return [
         ],
         'mailer' => [
             'messageClass' => \yii\symfonymailer\Message::class
-        ]
+        ],
+        'db' => require dirname(__DIR__) . '/../common/config/db.php',
     ],
 ];

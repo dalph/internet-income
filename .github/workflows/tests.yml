@@ -15,9 +15,9 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: internet_income_test
-          MYSQL_USER: internet_income
-          MYSQL_PASSWORD: password
+          DB_NAME: internet_income_test
+          DB_USER: internet_income
+          DB_PASSWORD: password
         options: >-
           --health-cmd="mysqladmin ping"
           --health-interval=10s
@@ -70,15 +70,35 @@ jobs:
         cp environments/dev/frontend/config/codeception-local.php frontend/config/
 
     - name: Run database migrations
+      env:
+        DB_HOST: 127.0.0.1
+        DB_NAME: internet_income_test
+        DB_USER: internet_income
+        DB_ROOT_PASSWORD: password
       run: php yii_test migrate --interactive=0
 
     - name: Run frontend unit tests
+      env:
+        DB_HOST: 127.0.0.1
+        DB_NAME: internet_income_test
+        DB_USER: internet_income
+        DB_PASSWORD: password
       run: vendor/bin/codecept run unit -c frontend
 
     - name: Run backend unit tests
+      env:
+        DB_HOST: 127.0.0.1
+        DB_NAME: internet_income_test
+        DB_USER: internet_income
+        DB_PASSWORD: password
       run: vendor/bin/codecept run unit -c backend
 
     - name: Run tests with coverage
+      env:
+        DB_HOST: 127.0.0.1
+        DB_NAME: internet_income_test
+        DB_USER: internet_income
+        DB_PASSWORD: password
       run: vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml -c common
 
     - name: Upload coverage reports to Codecov

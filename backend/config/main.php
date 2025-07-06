@@ -19,6 +19,7 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'db' => require dirname(__DIR__) . '/../common/config/db.php',
         'request' => [
             'csrfParam' => '_csrf-backend',
             'cookieValidationKey' => $params['cookieValidationKeyBackend'],
