@@ -52,4 +52,26 @@ test-coverage:
 	docker-compose -f docker-compose.yml exec db sh -c 'MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -u root --silent -e "GRANT ALL PRIVILEGES ON internet_income_test.* TO \"internet_income\"@\"%\";"'
 	docker-compose -f docker-compose.yml exec db sh -c 'MYSQL_PWD=$$MYSQL_ROOT_PASSWORD mysql -u root --silent -e "FLUSH PRIVILEGES;"'
 	docker-compose -f docker-compose.yml exec app php yii_test migrate --interactive=0
-	docker-compose -f docker-compose.yml exec app vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml -c common 
+	docker-compose -f docker-compose.yml exec app vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml -c common
+
+# Сидирование данных
+seed:
+	docker-compose -f docker-compose.yml exec app php yii seed
+
+# Сидирование пользователей
+seed-users:
+	docker-compose -f docker-compose.yml exec app php yii seed/users
+
+# Сидирование категорий
+seed-categories:
+	docker-compose -f docker-compose.yml exec app php yii seed/categories
+
+# Сидирование ссылок
+seed-links:
+	docker-compose -f docker-compose.yml exec app php yii seed/links
+
+# Очистка тестовых данных
+seed-clear:
+	docker-compose -f docker-compose.yml exec app php yii seed/clear
+
+ 
