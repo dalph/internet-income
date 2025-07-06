@@ -13,10 +13,6 @@ runtime/
 */runtime/logs/
 */runtime/temp/
 
-# backup files
-backup/
-backup.zip
-
 # Composer dependencies
 vendor/
 
