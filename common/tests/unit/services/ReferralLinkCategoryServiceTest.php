@@ -246,4 +246,28 @@ class ReferralLinkCategoryServiceTest extends \Codeception\Test\Unit
 
         $this->assertFalse($result);
     }
+
+    /**
+     * Проверяет обновление статуса и приоритета
+     */
+    public function testUpdateStatusAndPrior()
+    {
+        $category = $this->service->create('Категория', 'Описание', ReferralLinkCategoryStatusEnum::STATUS_ACTIVE, 1);
+        $this->assertNotNull($category);
+
+        $newStatus = ReferralLinkCategoryStatusEnum::STATUS_INACTIVE;
+        $newPrior = 99;
+
+        $updatedCategory = $this->service->update(
+            $category->id,
+            'Категория',
+            'Описание',
+            $newStatus,
+            $newPrior
+        );
+
+        $this->assertInstanceOf(ReferralLinkCategory::class, $updatedCategory);
+        $this->assertEquals($newStatus, $updatedCategory->status);
+        $this->assertEquals($newPrior, $updatedCategory->prior);
+    }
 } 
