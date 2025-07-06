@@ -1,4 +1,11 @@
 <?php
+
+declare(strict_types = 1);
+
+use yii\caching\FileCache;
+use common\services\ReferralLinkService;
+use common\services\ReferralLinkCategoryService;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -7,16 +14,16 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'cache' => [
-            'class' => \yii\caching\FileCache::class,
+            'class' => FileCache::class,
         ],
     ],
     'container' => [
         'definitions' => [
-            \common\services\ReferralLinkService::class => [
-                'class' => \common\services\ReferralLinkService::class,
+            ReferralLinkService::class => [
+                'class' => ReferralLinkService::class,
             ],
-            \common\services\ReferralLinkCategoryService::class => [
-                'class' => \common\services\ReferralLinkCategoryService::class,
+            ReferralLinkCategoryService::class => [
+                'class' => ReferralLinkCategoryService::class,
             ],
         ],
     ],

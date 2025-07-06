@@ -9,12 +9,69 @@ use common\models\ReferralLinkCategory;
 use common\services\ReferralLinkCategoryService;
 use Codeception\Test\Unit;
 use Yii;
+use yii\web\Request;
+use yii\web\Response;
+use yii\web\Session;
 
 /**
  * Тест контроллера категорий реферальных ссылок
  */
 class ReferralLinkCategoryControllerTest extends Unit
 {
+    /**
+     * Настройка тестового окружения
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        // Создаем тестовое приложение с необходимыми компонентами
+        $config = [
+            'id' => 'test-app',
+            'basePath' => dirname(dirname(dirname(__DIR__))),
+            'components' => [
+                'request' => [
+                    'class' => Request::class,
+                    'enableCsrfValidation' => false,
+                ],
+                'response' => [
+                    'class' => Response::class,
+                ],
+                'session' => [
+                    'class' => Session::class,
+                ],
+                'db' => [
+                    'class' => \yii\db\Connection::class,
+                    'dsn' => 'mysql:host=db;dbname=internet_income_test',
+                    'username' => 'internet_income',
+                    'password' => 'password',
+                    'charset' => 'utf8',
+                ],
+            ],
+        ];
+        
+        new \yii\console\Application($config);
+    }
+
+    /**
+     * Очистка после тестов
+     */
+    protected function tearDown(): void
+    {
+        Yii::$app = null;
+        parent::tearDown();
+    }
+
+    /**
+     * Вызвать защищённый метод findModel через Reflection
+     */
+    private function callFindModel($controller, $id)
+    {
+        $method = new \ReflectionMethod($controller, 'findModel');
+        $method->setAccessible(true);
+        return $method->invoke($controller, $id);
+    }
+
     /**
      * Тест создания контроллера
      */
@@ -57,7 +114,7 @@ class ReferralLinkCategoryControllerTest extends Unit
         $category->prior = 0;
         $category->save();
         
-        $foundModel = $controller->findModel((string) $category->id);
+        $foundModel = $this->callFindModel($controller, (string) $category->id);
         
         $this->assertInstanceOf(ReferralLinkCategory::class, $foundModel);
         $this->assertEquals($category->id, $foundModel->id);
@@ -77,7 +134,7 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel('999999');
+        $this->callFindModel($controller, '999999');
     }
 
     /**
@@ -91,7 +148,7 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel(null);
+        $this->callFindModel($controller, null);
     }
 
     /**
@@ -105,6 +162,6 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel('invalid');
+        $this->callFindModel($controller, 'invalid');
     }
 } 

@@ -1,3 +1,18 @@
+/* Фон для всего сайта */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* Основной контент с полупрозрачным фоном */
+main {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
 main > .container {
     padding: 70px 15px 20px;
 }

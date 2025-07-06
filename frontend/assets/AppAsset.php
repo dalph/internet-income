@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
+use yii\web\YiiAsset;
+use yii\bootstrap5\BootstrapAsset;
 
 /**
  * Main frontend application asset bundle.
@@ -15,10 +19,8 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'libs/font-awesome/css/font-awesome.min.css',
     ];
-    public $js = [
-    ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset',
+        YiiAsset::class,
+        BootstrapAsset::class,
     ];
 }

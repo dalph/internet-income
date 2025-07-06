@@ -60,13 +60,23 @@ jobs:
         cp environments/dev/console/config/main-local.php console/config/
         cp environments/dev/console/config/params-local.php console/config/
         cp environments/dev/console/config/test-local.php console/config/
+        cp environments/dev/backend/config/main-local.php backend/config/
+        cp environments/dev/backend/config/params-local.php backend/config/
         cp environments/dev/backend/config/test-local.php backend/config/
+        cp environments/dev/backend/config/codeception-local.php backend/config/
+        cp environments/dev/frontend/config/main-local.php frontend/config/
+        cp environments/dev/frontend/config/params-local.php frontend/config/
+        cp environments/dev/frontend/config/test-local.php frontend/config/
+        cp environments/dev/frontend/config/codeception-local.php frontend/config/
 
     - name: Run database migrations
       run: php yii_test migrate --interactive=0
 
     - name: Run frontend unit tests
       run: vendor/bin/codecept run unit -c frontend
+
+    - name: Run backend unit tests
+      run: vendor/bin/codecept run unit -c backend
 
     - name: Run tests with coverage
       run: vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml -c common
