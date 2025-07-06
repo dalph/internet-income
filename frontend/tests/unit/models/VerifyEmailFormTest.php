@@ -5,8 +5,9 @@ namespace frontend\tests\unit\models;
 use common\fixtures\UserFixture;
 use common\enum\UserStatusEnum;
 use frontend\models\VerifyEmailForm;
+use common\tests\_support\BaseUnit;
 
-class VerifyEmailFormTest extends \Codeception\Test\Unit
+class VerifyEmailFormTest extends BaseUnit
 {
     /**
      * @var \frontend\tests\UnitTester

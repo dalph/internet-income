@@ -5,18 +5,13 @@ declare(strict_types = 1);
 namespace common\tests\unit\enum;
 
 use common\enum\ReferralLinkStatusEnum;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тест для ReferralLinkStatusEnum
  */
-class ReferralLinkStatusEnumTest extends \Codeception\Test\Unit
+class ReferralLinkStatusEnumTest extends BaseUnit
 {
-    /**
-     * @var UnitTester
-     */
-    protected $tester;
-
     /**
      * Тест констант статусов
      */

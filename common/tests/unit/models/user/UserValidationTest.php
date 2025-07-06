@@ -5,12 +5,12 @@ declare(strict_types = 1);
 namespace common\tests\unit\models\user;
 
 use common\models\User;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тест для валидации пользователя
  */
-class UserValidationTest extends \Codeception\Test\Unit
+class UserValidationTest extends BaseUnit
 {
     /**
      * @var UnitTester

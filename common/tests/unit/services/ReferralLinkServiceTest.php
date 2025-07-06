@@ -9,18 +9,13 @@ use common\enum\ReferralLinkStatusEnum;
 use common\models\ReferralLinkCategory;
 use common\enum\ReferralLinkCategoryStatusEnum;
 use common\services\ReferralLinkService;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тест для сервиса ReferralLinkService
  */
-class ReferralLinkServiceTest extends \Codeception\Test\Unit
+class ReferralLinkServiceTest extends BaseUnit
 {
-    /**
-     * @var UnitTester
-     */
-    protected $tester;
-
     /**
      * @var ReferralLinkService
      */

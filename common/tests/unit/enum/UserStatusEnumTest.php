@@ -5,11 +5,12 @@ declare(strict_types = 1);
 namespace common\tests\unit\enum;
 
 use common\enum\UserStatusEnum;
+use common\tests\_support\BaseUnit;
 
 /**
- * Тест enum класса UserStatusEnum
+ * Тест для UserStatusEnum
  */
-class UserStatusEnumTest extends \Codeception\Test\Unit
+class UserStatusEnumTest extends BaseUnit
 {
     /**
      * Тест констант статусов

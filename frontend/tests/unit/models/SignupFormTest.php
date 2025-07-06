@@ -5,8 +5,9 @@ namespace frontend\tests\unit\models;
 use common\fixtures\UserFixture;
 use common\enum\UserStatusEnum;
 use frontend\models\SignupForm;
+use common\tests\_support\BaseUnit;
 
-class SignupFormTest extends \Codeception\Test\Unit
+class SignupFormTest extends BaseUnit
 {
     /**
      * @var \frontend\tests\UnitTester

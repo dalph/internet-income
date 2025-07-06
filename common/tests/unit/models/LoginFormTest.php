@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace common\tests\unit\models;
 
-use Yii;
 use common\models\LoginForm;
+use common\models\User;
+use common\enum\UserStatusEnum;
+use common\tests\_support\BaseUnit;
 use common\fixtures\UserFixture;
+use Yii;
 
 /**
- * Login form test
+ * Тест для модели LoginForm
  */
-class LoginFormTest extends \Codeception\Test\Unit
+class LoginFormTest extends BaseUnit
 {
     /**
      * @var \common\tests\UnitTester
