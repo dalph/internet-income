@@ -38,7 +38,10 @@ class ReferralLinkCategoryControllerTest extends Unit
         $category->prior = 0;
         $category->save();
         
-        $foundModel = $controller->findModel((string) $category->id);
+        $reflection = new \ReflectionClass($controller);
+        $method = $reflection->getMethod('findModel');
+        $method->setAccessible(true);
+        $foundModel = $method->invoke($controller, (string) $category->id);
         
         $this->assertInstanceOf(ReferralLinkCategory::class, $foundModel);
         $this->assertEquals($category->id, $foundModel->id);
@@ -58,7 +61,10 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel('999999');
+        $reflection = new \ReflectionClass($controller);
+        $method = $reflection->getMethod('findModel');
+        $method->setAccessible(true);
+        $method->invoke($controller, '999999');
     }
 
     /**
@@ -78,7 +84,10 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel((string) $category->id);
+        $reflection = new \ReflectionClass($controller);
+        $method = $reflection->getMethod('findModel');
+        $method->setAccessible(true);
+        $method->invoke($controller, (string) $category->id);
         
         // Очистка
         $category->delete();
@@ -94,7 +103,10 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel(null);
+        $reflection = new \ReflectionClass($controller);
+        $method = $reflection->getMethod('findModel');
+        $method->setAccessible(true);
+        $method->invoke($controller, null);
     }
 
     /**
@@ -107,6 +119,9 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel('invalid');
+        $reflection = new \ReflectionClass($controller);
+        $method = $reflection->getMethod('findModel');
+        $method->setAccessible(true);
+        $method->invoke($controller, 'invalid');
     }
 } 
