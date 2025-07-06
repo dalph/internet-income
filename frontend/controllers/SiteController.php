@@ -75,7 +75,37 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        // Получить топовые активные ссылки
+        $topLinks = \common\models\ReferralLink::find()
+            ->where([
+                'is_top' => true,
+                'status' => \common\enum\ReferralLinkStatusEnum::STATUS_ACTIVE,
+            ])
+            ->orderBy(['prior' => SORT_ASC, 'id' => SORT_DESC])
+            ->all();
+
+        // Получить активные категории с их активными ссылками
+        $categories = [];
+        $categoryModels = \common\models\ReferralLinkCategory::find()
+            ->active()
+            ->orderBy(['prior' => SORT_ASC, 'id' => SORT_DESC])
+            ->all();
+        foreach ($categoryModels as $category) {
+            $categories[] = [
+                'id' => $category->id,
+                'title' => $category->title,
+                'description' => $category->description,
+                'links' => $category->getActiveReferralLinks()
+                    ->orderBy(['is_top' => SORT_DESC, 'prior' => SORT_ASC, 'id' => SORT_DESC])
+                    ->asArray()
+                    ->all(),
+            ];
+        }
+
+        return $this->render('index', [
+            'topLinks' => $topLinks,
+            'categories' => $categories,
+        ]);
     }
 
     /**

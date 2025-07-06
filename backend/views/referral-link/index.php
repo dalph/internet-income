@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use common\models\ReferralLinkEnum;
+use common\enum\ReferralLinkStatusEnum;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -34,9 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
-                    return $model->getStatusName();
+                    return ReferralLinkStatusEnum::getTitle($model->status);
                 },
-                'filter' => ReferralLinkEnum::getStatusList(),
+                'filter' => ReferralLinkStatusEnum::getTitles(),
             ],
             [
                 'attribute' => 'is_top',
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Вкл/Выкл',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $isActive = $model->status === \common\models\ReferralLinkEnum::STATUS_ACTIVE;
+                    $isActive = $model->status === ReferralLinkStatusEnum::STATUS_ACTIVE;
                     $icon = '<i class="fa fa-lightbulb-o" style="color: ' . ($isActive ? '#ffc107' : '#adb5bd') . ';"></i>';
                     $title = $isActive ? 'Отключить' : 'Включить';
                     return \yii\helpers\Html::a($icon, 'javascript:void(0);', [

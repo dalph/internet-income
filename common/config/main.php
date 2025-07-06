@@ -10,4 +10,14 @@ return [
             'class' => \yii\caching\FileCache::class,
         ],
     ],
+    'container' => [
+        'definitions' => [
+            \common\services\ReferralLinkService::class => [
+                'class' => \common\services\ReferralLinkService::class,
+            ],
+            \common\services\ReferralLinkCategoryService::class => [
+                'class' => \common\services\ReferralLinkCategoryService::class,
+            ],
+        ],
+    ],
 ];

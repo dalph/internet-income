@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\enum\ReferralLinkStatusEnum;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ReferralLink */
@@ -35,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             [
                 'attribute' => 'status',
-                'value' => $model->getStatusName(),
+                'value' => ReferralLinkStatusEnum::getTitle($model->status),
             ],
             [
                 'attribute' => 'is_top',

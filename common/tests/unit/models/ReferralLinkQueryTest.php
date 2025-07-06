@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace common\tests\unit\models;
 
 use common\models\ReferralLink;
-use common\models\ReferralLinkEnum;
+use common\enum\ReferralLinkStatusEnum;
 use common\tests\UnitTester;
 
 /**
@@ -27,14 +27,14 @@ class ReferralLinkQueryTest extends \Codeception\Test\Unit
         $activeLink = new ReferralLink();
         $activeLink->title = 'Активная ссылка';
         $activeLink->url = 'https://example.com';
-        $activeLink->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $activeLink->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $activeLink->save();
 
         // Создаем неактивную ссылку
         $inactiveLink = new ReferralLink();
         $inactiveLink->title = 'Неактивная ссылка';
         $inactiveLink->url = 'https://example2.com';
-        $inactiveLink->status = ReferralLinkEnum::STATUS_INACTIVE;
+        $inactiveLink->status = ReferralLinkStatusEnum::STATUS_INACTIVE;
         $inactiveLink->save();
 
         $activeLinks = ReferralLink::find()->active()->all();
@@ -52,14 +52,14 @@ class ReferralLinkQueryTest extends \Codeception\Test\Unit
         $activeLink = new ReferralLink();
         $activeLink->title = 'Активная ссылка';
         $activeLink->url = 'https://example.com';
-        $activeLink->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $activeLink->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $activeLink->save();
 
         // Создаем неактивную ссылку
         $inactiveLink = new ReferralLink();
         $inactiveLink->title = 'Неактивная ссылка';
         $inactiveLink->url = 'https://example2.com';
-        $inactiveLink->status = ReferralLinkEnum::STATUS_INACTIVE;
+        $inactiveLink->status = ReferralLinkStatusEnum::STATUS_INACTIVE;
         $inactiveLink->save();
 
         $inactiveLinks = ReferralLink::find()->inactive()->all();

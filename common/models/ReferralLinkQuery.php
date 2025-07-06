@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace common\models;
 
 use yii\db\ActiveQuery;
-use common\models\ReferralLinkEnum;
+use common\enum\ReferralLinkStatusEnum;
 
 /**
  * Класс запросов для модели ReferralLink
@@ -17,7 +17,9 @@ class ReferralLinkQuery extends ActiveQuery
      */
     public function active()
     {
-        return $this->andWhere(['status' => ReferralLinkEnum::STATUS_ACTIVE]);
+        return $this->andWhere([
+            'status' => ReferralLinkStatusEnum::STATUS_ACTIVE
+        ]);
     }
 
     /**
@@ -25,7 +27,9 @@ class ReferralLinkQuery extends ActiveQuery
      */
     public function inactive()
     {
-        return $this->andWhere(['status' => ReferralLinkEnum::STATUS_INACTIVE]);
+        return $this->andWhere([
+            'status' => ReferralLinkStatusEnum::STATUS_INACTIVE
+        ]);
     }
 
     /**

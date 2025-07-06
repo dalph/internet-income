@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace common\tests\unit\models\user;
 
 use common\models\User;
+use common\enum\UserStatusEnum;
 use common\tests\UnitTester;
 
 /**
@@ -35,7 +36,7 @@ class UserTokenTest extends \Codeception\Test\Unit
         $user = new User();
         $user->username = 'testuser';
         $user->email = 'test@example.com';
-        $user->status = User::STATUS_ACTIVE;
+        $user->status = UserStatusEnum::ACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->password_reset_token = 'valid_token_' . time();
@@ -56,7 +57,7 @@ class UserTokenTest extends \Codeception\Test\Unit
         $user = new User();
         $user->username = 'inactive_user';
         $user->email = 'inactive@example.com';
-        $user->status = User::STATUS_INACTIVE;
+        $user->status = UserStatusEnum::INACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->password_reset_token = 'valid_token_' . time();
@@ -76,7 +77,7 @@ class UserTokenTest extends \Codeception\Test\Unit
         $user = new User();
         $user->username = 'deleted_user';
         $user->email = 'deleted@example.com';
-        $user->status = User::STATUS_DELETED;
+        $user->status = UserStatusEnum::DELETED;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->password_reset_token = 'valid_token_' . time();
@@ -104,7 +105,7 @@ class UserTokenTest extends \Codeception\Test\Unit
         $user = new User();
         $user->username = 'testuser';
         $user->email = 'test@example.com';
-        $user->status = User::STATUS_INACTIVE;
+        $user->status = UserStatusEnum::INACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->verification_token = 'verification_token';
@@ -123,7 +124,7 @@ class UserTokenTest extends \Codeception\Test\Unit
         $user = new User();
         $user->username = 'active_user';
         $user->email = 'active@example.com';
-        $user->status = User::STATUS_ACTIVE;
+        $user->status = UserStatusEnum::ACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->verification_token = 'verification_token';
@@ -141,7 +142,7 @@ class UserTokenTest extends \Codeception\Test\Unit
         $user = new User();
         $user->username = 'deleted_user';
         $user->email = 'deleted@example.com';
-        $user->status = User::STATUS_DELETED;
+        $user->status = UserStatusEnum::DELETED;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->verification_token = 'verification_token';

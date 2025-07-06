@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace common\services;
 
 use common\models\ReferralLink;
-use common\models\ReferralLinkEnum;
+use common\enum\ReferralLinkStatusEnum;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -73,7 +73,7 @@ class ReferralLinkService
             return false;
         }
         
-        if (false === ReferralLinkEnum::isValidStatus($status)) {
+        if (false === ReferralLinkStatusEnum::hasValue($status)) {
             return false;
         }
         
@@ -105,6 +105,18 @@ class ReferralLinkService
     {
         return ReferralLink::find()
             ->active()
+            ->byTopAndPriority()
+            ->all();
+    }
+
+    /**
+     * Получить активные реферальные ссылки без категорий
+     */
+    public function getActiveLinksWithoutCategory()
+    {
+        return ReferralLink::find()
+            ->active()
+            ->andWhere(['category_id' => null])
             ->byTopAndPriority()
             ->all();
     }
@@ -158,7 +170,7 @@ class ReferralLinkService
             $query->byTitle($params['title']);
         }
         
-        if (isset($params['status']) && ReferralLinkEnum::isValidStatus($params['status'])) {
+        if (isset($params['status']) && ReferralLinkStatusEnum::hasValue($params['status'])) {
             $query->andWhere(['status' => $params['status']]);
         }
         
@@ -170,6 +182,10 @@ class ReferralLinkService
             } else {
                 $query->notTop();
             }
+        }
+        
+        if (isset($params['category_id']) && false === empty($params['category_id'])) {
+            $query->andWhere(['category_id' => $params['category_id']]);
         }
         
         return true;
