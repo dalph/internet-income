@@ -148,8 +148,8 @@ class SeedController extends BaseController
                 'prior' => 4,
             ],
             [
-                'title' => 'Казино',
-                'description' => 'Реферальные ссылки на онлайн казино',
+                'title' => 'Игры',
+                'description' => 'Реферальные ссылки на онлайн игры',
                 'status' => ReferralLinkCategoryStatusEnum::STATUS_INACTIVE,
                 'prior' => 5,
             ],
