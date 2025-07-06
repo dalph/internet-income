@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace backend\controllers;
 
 use common\models\ReferralLink;
-use common\models\ReferralLinkEnum;
+use common\enum\ReferralLinkStatusEnum;
 use common\services\ReferralLinkService;
 use Yii;
 use yii\filters\VerbFilter;
@@ -24,15 +24,12 @@ class ReferralLinkController extends Controller
      *
      * @var ReferralLinkService
      */
-    private $referralLinkService;
+    private ReferralLinkService $referralLinkService;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($id, $module, $config = [])
+    public function __construct($id, $module, ReferralLinkService $referralLinkService, $config = [])
     {
+        $this->referralLinkService = $referralLinkService;
         parent::__construct($id, $module, $config);
-        $this->referralLinkService = new ReferralLinkService();
     }
 
     /**

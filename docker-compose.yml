@@ -9,6 +9,21 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - IMAP_SORTER_HOST=${IMAP_SORTER_HOST}
+      - IMAP_SORTER_PORT=${IMAP_SORTER_PORT}
+      - IMAP_SORTER_USER=${IMAP_SORTER_USER}
+      - IMAP_SORTER_PWD=${IMAP_SORTER_PWD}
+      - TG_BOT_TOKEN=${TG_BOT_TOKEN}
+      - BOT_PASSWORD=${BOT_PASSWORD}
+      - SITE_TITLE=${SITE_TITLE}
+      - SHOW_HEADER=${SHOW_HEADER}
+      - SHOW_FOOTER=${SHOW_FOOTER}
+      - SHOW_BANNERS=${SHOW_BANNERS}
     networks:
       - internet_income_network
       - router
@@ -41,10 +56,10 @@ services:
     container_name: internet_income_db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: internet_income
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: password
-      MYSQL_USER: internet_income
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     ports:

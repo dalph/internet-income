@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace common\tests\unit\models\user;
 
 use common\models\User;
+use common\enum\UserStatusEnum;
 use common\tests\UnitTester;
 
 /**
@@ -38,7 +39,7 @@ class UserCommonTest extends \Codeception\Test\Unit
         $user = new User();
         $user->username = 'testuser';
         $user->email = 'test@example.com';
-        $user->status = User::STATUS_ACTIVE;
+        $user->status = UserStatusEnum::ACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         
@@ -46,7 +47,7 @@ class UserCommonTest extends \Codeception\Test\Unit
         $this->assertNotNull($user->id);
         $this->assertEquals('testuser', $user->username);
         $this->assertEquals('test@example.com', $user->email);
-        $this->assertEquals(User::STATUS_ACTIVE, $user->status);
+        $this->assertEquals(UserStatusEnum::ACTIVE, $user->status);
     }
 
     /**
@@ -54,9 +55,9 @@ class UserCommonTest extends \Codeception\Test\Unit
      */
     public function testStatusConstants()
     {
-        $this->assertEquals(0, User::STATUS_DELETED);
-        $this->assertEquals(9, User::STATUS_INACTIVE);
-        $this->assertEquals(10, User::STATUS_ACTIVE);
+        $this->assertEquals(0, UserStatusEnum::DELETED);
+        $this->assertEquals(9, UserStatusEnum::INACTIVE);
+        $this->assertEquals(10, UserStatusEnum::ACTIVE);
     }
 
     /**

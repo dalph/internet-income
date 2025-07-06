@@ -5,7 +5,9 @@ declare(strict_types = 1);
 namespace common\tests\unit\services;
 
 use common\models\ReferralLink;
-use common\models\ReferralLinkEnum;
+use common\enum\ReferralLinkStatusEnum;
+use common\models\ReferralLinkCategory;
+use common\enum\ReferralLinkCategoryStatusEnum;
 use common\services\ReferralLinkService;
 use common\tests\UnitTester;
 
@@ -42,7 +44,7 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
             'title' => 'Тестовая ссылка',
             'url' => 'https://example.com',
             'description' => 'Описание тестовой ссылки',
-            'status' => ReferralLinkEnum::STATUS_ACTIVE,
+            'status' => ReferralLinkStatusEnum::STATUS_ACTIVE,
             'is_top' => true,
             'prior' => 10,
         ];
@@ -52,7 +54,7 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $this->assertInstanceOf(ReferralLink::class, $result);
         $this->assertEquals('Тестовая ссылка', $result->title);
         $this->assertEquals('https://example.com', $result->url);
-        $this->assertEquals(ReferralLinkEnum::STATUS_ACTIVE, $result->status);
+        $this->assertEquals(ReferralLinkStatusEnum::STATUS_ACTIVE, $result->status);
         $this->assertTrue($result->is_top);
         $this->assertEquals(10, $result->prior);
     }
@@ -103,7 +105,7 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
             'title' => 'Обновленная ссылка',
             'url' => 'https://updated-example.com',
             'description' => 'Обновленное описание',
-            'status' => ReferralLinkEnum::STATUS_INACTIVE,
+            'status' => ReferralLinkStatusEnum::STATUS_INACTIVE,
             'is_top' => false,
             'prior' => 5,
         ];
@@ -113,7 +115,7 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $this->assertInstanceOf(ReferralLink::class, $result);
         $this->assertEquals('Обновленная ссылка', $result->title);
         $this->assertEquals('https://updated-example.com', $result->url);
-        $this->assertEquals(ReferralLinkEnum::STATUS_INACTIVE, $result->status);
+        $this->assertEquals(ReferralLinkStatusEnum::STATUS_INACTIVE, $result->status);
         $this->assertFalse($result->is_top);
         $this->assertEquals(5, $result->prior);
     }
@@ -171,16 +173,16 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $link = new ReferralLink();
         $link->title = 'Тестовая ссылка';
         $link->url = 'https://example.com';
-        $link->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $link->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $link->save();
 
         // Изменяем статус на неактивный
-        $result = $this->service->changeStatus($link->id, ReferralLinkEnum::STATUS_INACTIVE);
+        $result = $this->service->changeStatus($link->id, ReferralLinkStatusEnum::STATUS_INACTIVE);
 
         $this->assertTrue($result);
         
         $updatedLink = ReferralLink::findOne($link->id);
-        $this->assertEquals(ReferralLinkEnum::STATUS_INACTIVE, $updatedLink->status);
+        $this->assertEquals(ReferralLinkStatusEnum::STATUS_INACTIVE, $updatedLink->status);
     }
 
     /**
@@ -257,20 +259,53 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $activeLink = new ReferralLink();
         $activeLink->title = 'Активная ссылка';
         $activeLink->url = 'https://example.com';
-        $activeLink->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $activeLink->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $activeLink->save();
 
         // Создаем неактивную ссылку
         $inactiveLink = new ReferralLink();
         $inactiveLink->title = 'Неактивная ссылка';
         $inactiveLink->url = 'https://example2.com';
-        $inactiveLink->status = ReferralLinkEnum::STATUS_INACTIVE;
+        $inactiveLink->status = ReferralLinkStatusEnum::STATUS_INACTIVE;
         $inactiveLink->save();
 
         $activeLinks = $this->service->getActiveLinks();
 
         $this->assertCount(1, $activeLinks);
         $this->assertEquals('Активная ссылка', $activeLinks[0]->title);
+    }
+
+    /**
+     * Тест получения активных ссылок без категорий
+     */
+    public function testGetActiveLinksWithoutCategory()
+    {
+        // Создаем категорию
+        $category = new ReferralLinkCategory();
+        $category->title = 'Тестовая категория';
+        $category->status = ReferralLinkCategoryStatusEnum::STATUS_ACTIVE;
+        $category->save();
+
+        // Создаем ссылку с категорией
+        $link1 = new ReferralLink();
+        $link1->title = 'Ссылка с категорией';
+        $link1->url = 'https://example1.com';
+        $link1->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
+        $link1->category_id = $category->id;
+        $link1->save();
+
+        // Создаем ссылку без категории
+        $link2 = new ReferralLink();
+        $link2->title = 'Ссылка без категории';
+        $link2->url = 'https://example2.com';
+        $link2->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
+        $link2->save();
+
+        $result = $this->service->getActiveLinksWithoutCategory();
+
+        $this->assertIsArray($result);
+        $this->assertCount(1, $result);
+        $this->assertNull($result[0]->category_id);
     }
 
     /**
@@ -282,7 +317,7 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $regularLink = new ReferralLink();
         $regularLink->title = 'Обычная ссылка';
         $regularLink->url = 'https://example.com';
-        $regularLink->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $regularLink->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $regularLink->is_top = false;
         $regularLink->save();
 
@@ -290,7 +325,7 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $topLink = new ReferralLink();
         $topLink->title = 'Топовая ссылка';
         $topLink->url = 'https://example2.com';
-        $topLink->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $topLink->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $topLink->is_top = true;
         $topLink->save();
 
@@ -309,14 +344,14 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $link1 = new ReferralLink();
         $link1->title = 'Ссылка 1';
         $link1->url = 'https://example1.com';
-        $link1->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $link1->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $link1->is_top = true;
         $link1->save();
 
         $link2 = new ReferralLink();
         $link2->title = 'Ссылка 2';
         $link2->url = 'https://example2.com';
-        $link2->status = ReferralLinkEnum::STATUS_INACTIVE;
+        $link2->status = ReferralLinkStatusEnum::STATUS_INACTIVE;
         $link2->is_top = false;
         $link2->save();
 
@@ -356,16 +391,16 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $activeLink = new ReferralLink();
         $activeLink->title = 'Активная ссылка';
         $activeLink->url = 'https://example1.com';
-        $activeLink->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $activeLink->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $activeLink->save();
 
         $inactiveLink = new ReferralLink();
         $inactiveLink->title = 'Неактивная ссылка';
         $inactiveLink->url = 'https://example2.com';
-        $inactiveLink->status = ReferralLinkEnum::STATUS_INACTIVE;
+        $inactiveLink->status = ReferralLinkStatusEnum::STATUS_INACTIVE;
         $inactiveLink->save();
 
-        $dataProvider = $this->service->getDataProvider(['status' => ReferralLinkEnum::STATUS_ACTIVE]);
+        $dataProvider = $this->service->getDataProvider(['status' => ReferralLinkStatusEnum::STATUS_ACTIVE]);
 
         $this->assertInstanceOf(\yii\data\ActiveDataProvider::class, $dataProvider);
     }
@@ -425,22 +460,51 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
         $link1 = new ReferralLink();
         $link1->title = 'Тестовая топовая';
         $link1->url = 'https://example1.com';
-        $link1->status = ReferralLinkEnum::STATUS_ACTIVE;
+        $link1->status = ReferralLinkStatusEnum::STATUS_ACTIVE;
         $link1->is_top = true;
         $link1->save();
 
         $link2 = new ReferralLink();
         $link2->title = 'Другая обычная';
         $link2->url = 'https://example2.com';
-        $link2->status = ReferralLinkEnum::STATUS_INACTIVE;
+        $link2->status = ReferralLinkStatusEnum::STATUS_INACTIVE;
         $link2->is_top = false;
         $link2->save();
 
         $dataProvider = $this->service->getDataProvider([
             'title' => 'Тестовая',
-            'status' => ReferralLinkEnum::STATUS_ACTIVE,
+            'status' => ReferralLinkStatusEnum::STATUS_ACTIVE,
             'is_top' => true,
         ]);
+
+        $this->assertInstanceOf(\yii\data\ActiveDataProvider::class, $dataProvider);
+    }
+
+    /**
+     * Тест получения провайдера данных с фильтром по категории
+     */
+    public function testGetDataProviderWithCategoryFilter()
+    {
+        // Создаем категорию
+        $category = new ReferralLinkCategory();
+        $category->title = 'Тестовая категория';
+        $category->status = ReferralLinkCategoryStatusEnum::STATUS_ACTIVE;
+        $category->save();
+
+        // Создаем ссылку с категорией
+        $link1 = new ReferralLink();
+        $link1->title = 'Ссылка с категорией';
+        $link1->url = 'https://example1.com';
+        $link1->category_id = $category->id;
+        $link1->save();
+
+        // Создаем ссылку без категории
+        $link2 = new ReferralLink();
+        $link2->title = 'Ссылка без категории';
+        $link2->url = 'https://example2.com';
+        $link2->save();
+
+        $dataProvider = $this->service->getDataProvider(['category_id' => $category->id]);
 
         $this->assertInstanceOf(\yii\data\ActiveDataProvider::class, $dataProvider);
     }
@@ -612,7 +676,7 @@ class ReferralLinkServiceTest extends \Codeception\Test\Unit
      */
     public function testChangeStatusNonExistentLink()
     {
-        $result = $this->service->changeStatus(99999, ReferralLinkEnum::STATUS_INACTIVE);
+        $result = $this->service->changeStatus(99999, ReferralLinkStatusEnum::STATUS_INACTIVE);
 
         $this->assertFalse($result);
     }

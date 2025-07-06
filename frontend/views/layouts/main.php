@@ -25,6 +25,7 @@ AppAsset::register($this);
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
+<?php if (Yii::$app->params['showHeader']): ?>
 <header>
     <?php
     NavBar::begin([
@@ -39,6 +40,7 @@ AppAsset::register($this);
         ['label' => 'О проекте', 'url' => ['/site/about']],
         ['label' => 'Контакты', 'url' => ['/site/contact']],
         ['label' => 'Реферальные ссылки', 'url' => ['/referral-link/index']],
+        ['label' => 'Категории', 'url' => ['/referral-link-category/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
@@ -61,6 +63,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 </header>
+<?php endif; ?>
 
 <main role="main" class="flex-shrink-0">
     <div class="container">
@@ -72,12 +75,14 @@ AppAsset::register($this);
     </div>
 </main>
 
+<?php if (Yii::$app->params['showFooter']): ?>
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="float-end"><?= Yii::powered() ?></p>
+        <p class="float-end">Powered by Yii2 Framework</p>
     </div>
 </footer>
+<?php endif; ?>
 
 <?php $this->endBody() ?>
 </body>

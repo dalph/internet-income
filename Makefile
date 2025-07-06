@@ -18,10 +18,6 @@ build:
 
 # Перезапуск контейнеров
 restart:
-	docker-compose -f docker-compose.yml restart
-
-# Полный перезапуск (остановка + запуск)
-restart-full:
 	docker-compose -f docker-compose.yml down
 	docker-compose -f docker-compose.yml up -d
 

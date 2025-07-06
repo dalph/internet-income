@@ -8,7 +8,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\ActiveQuery;
-use common\models\ReferralLinkEnum;
+use common\enum\ReferralLinkStatusEnum;
+use common\models\ReferralLinkCategory;
 
 /**
  * Модель реферальных ссылок
@@ -18,6 +19,7 @@ use common\models\ReferralLinkEnum;
  * @property string $url
  * @property string $description
  * @property integer $status
+ * @property integer $category_id
  * @property boolean $is_top
  * @property integer $prior
  * @property integer $created_at
@@ -59,13 +61,22 @@ class ReferralLink extends ActiveRecord
         return [
             [['title', 'url'], 'required'],
             [['description'], 'string'],
-            [['status', 'prior'], 'integer'],
+            [['status', 'category_id', 'prior'], 'integer'],
             [['is_top'], 'boolean'],
             [['title'], 'string', 'max' => 255],
             [['url'], 'string', 'max' => 500],
             [['url'], 'url'],
-            ['status', 'default', 'value' => ReferralLinkEnum::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [ReferralLinkEnum::STATUS_ACTIVE, ReferralLinkEnum::STATUS_INACTIVE]],
+            ['category_id', 'exist', 'targetClass' => ReferralLinkCategory::class, 'targetAttribute' => 'id'],
+            [
+                'status', 
+                'default', 
+                'value' => ReferralLinkStatusEnum::STATUS_ACTIVE,
+            ],
+            [
+                'status', 
+                'in', 
+                'range' => ReferralLinkStatusEnum::getValues(),
+            ],
             ['is_top', 'default', 'value' => false],
             ['prior', 'default', 'value' => 0],
         ];
@@ -82,6 +93,7 @@ class ReferralLink extends ActiveRecord
             'url' => 'Ссылка',
             'description' => 'Описание',
             'status' => 'Статус',
+            'category_id' => 'Категория',
             'is_top' => 'Топовая ссылка',
             'prior' => 'Приоритет',
             'created_at' => 'Дата создания',
@@ -94,7 +106,7 @@ class ReferralLink extends ActiveRecord
      */
     public static function getStatusList()
     {
-        return ReferralLinkEnum::getStatusList();
+        return ReferralLinkStatusEnum::getTitles();
     }
 
     /**
@@ -102,8 +114,7 @@ class ReferralLink extends ActiveRecord
      */
     public function getStatusName()
     {
-        $statusList = self::getStatusList();
-        return $statusList[$this->status] ?? 'Неизвестно';
+        return ReferralLinkStatusEnum::getTitle($this->status);
     }
 
     /**
@@ -111,7 +122,7 @@ class ReferralLink extends ActiveRecord
      */
     public function isActive()
     {
-        return $this->status === ReferralLinkEnum::STATUS_ACTIVE;
+        return $this->status === ReferralLinkStatusEnum::STATUS_ACTIVE;
     }
 
     /**
@@ -120,5 +131,13 @@ class ReferralLink extends ActiveRecord
     public function isTop()
     {
         return $this->is_top === true;
+    }
+
+    /**
+     * Получить категорию ссылки
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(ReferralLinkCategory::class, ['id' => 'category_id']);
     }
 } 
