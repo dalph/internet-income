@@ -30,6 +30,7 @@ class ReferralLinkCategoryControllerTest extends Unit
             'id' => 'test-app',
             'basePath' => dirname(dirname(dirname(__DIR__))),
             'components' => [
+                'db' => require dirname(dirname(dirname(dirname(__DIR__)))) . '/common/config/db.php',
                 'request' => [
                     'class' => Request::class,
                     'enableCsrfValidation' => false,
@@ -39,13 +40,6 @@ class ReferralLinkCategoryControllerTest extends Unit
                 ],
                 'session' => [
                     'class' => Session::class,
-                ],
-                'db' => [
-                    'class' => \yii\db\Connection::class,
-                    'dsn' => 'mysql:host=db;dbname=internet_income_test',
-                    'username' => 'internet_income',
-                    'password' => 'password',
-                    'charset' => 'utf8',
                 ],
             ],
         ];

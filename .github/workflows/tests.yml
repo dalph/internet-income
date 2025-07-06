@@ -36,6 +36,9 @@ jobs:
         extensions: mbstring, intl, mysql, pdo_mysql, gd, zip, xdebug
         coverage: xdebug
 
+    - name: Install MySQL client
+      run: sudo apt-get update && sudo apt-get install -y mysql-client
+
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
@@ -69,12 +72,27 @@ jobs:
         cp environments/dev/frontend/config/test-local.php frontend/config/
         cp environments/dev/frontend/config/codeception-local.php frontend/config/
 
+    - name: Wait for MySQL to be ready
+      run: |
+        while ! mysqladmin ping -h"127.0.0.1" -P"3306" --silent; do
+          sleep 1
+        done
+
+    - name: Create database and user
+      run: |
+        mysql -h 127.0.0.1 -P 3306 -u root -ppassword -e "
+          CREATE DATABASE IF NOT EXISTS internet_income_test;
+          CREATE USER IF NOT EXISTS 'internet_income'@'%' IDENTIFIED BY 'password';
+          GRANT ALL PRIVILEGES ON internet_income_test.* TO 'internet_income'@'%';
+          FLUSH PRIVILEGES;
+        "
+
     - name: Run database migrations
       env:
         DB_HOST: 127.0.0.1
         DB_NAME: internet_income_test
         DB_USER: internet_income
-        DB_ROOT_PASSWORD: password
+        DB_PASSWORD: password
       run: php yii_test migrate --interactive=0
 
     - name: Run frontend unit tests
