@@ -6,12 +6,12 @@ namespace common\tests\unit\models\user;
 
 use common\models\User;
 use common\enum\UserStatusEnum;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тест для методов идентификации пользователя
  */
-class UserIdentityTest extends \Codeception\Test\Unit
+class UserIdentityTest extends BaseUnit
 {
     /**
      * @var UnitTester

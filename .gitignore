@@ -5,6 +5,13 @@ npm-debug.log
 # Private data
 .env
 
+# Yii runtime directories
+runtime/
+*/runtime/
+*/runtime/*
+*/runtime/cache/
+*/runtime/logs/
+*/runtime/temp/
 
 # Composer dependencies
 vendor/

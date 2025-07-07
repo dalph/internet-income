@@ -1,2 +1,12 @@
 suite_namespace: backend\tests\unit
 actor: UnitTester
+bootstrap: false
+modules:
+    enabled:
+        - Yii2:
+            part: fixtures
+coverage:
+    enabled: true
+    show_uncovered: true
+    low_limit: 70
+    high_limit: 90

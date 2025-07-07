@@ -23,6 +23,7 @@ return [
           ],
     ],
     'components' => [
+        'db' => require dirname(__DIR__) . '/../common/config/db.php',
         'log' => [
             'targets' => [
                 [

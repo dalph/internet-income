@@ -7,18 +7,13 @@ namespace common\tests\unit\models;
 use common\models\ReferralLinkCategory;
 use common\models\ReferralLinkCategoryQuery;
 use common\enum\ReferralLinkCategoryStatusEnum;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тестирует методы ReferralLinkCategoryQuery
  */
-class ReferralLinkCategoryQueryTest extends \Codeception\Test\Unit
+class ReferralLinkCategoryQueryTest extends BaseUnit
 {
-    /**
-     * @var UnitTester
-     */
-    protected UnitTester $tester;
-
     /**
      * Проверяет фильтр active()
      */

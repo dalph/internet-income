@@ -8,18 +8,13 @@ use common\models\ReferralLink;
 use common\enum\ReferralLinkStatusEnum;
 use common\models\ReferralLinkCategory;
 use common\enum\ReferralLinkCategoryStatusEnum;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тест для модели ReferralLink
  */
-class ReferralLinkTest extends \Codeception\Test\Unit
+class ReferralLinkTest extends BaseUnit
 {
-    /**
-     * @var UnitTester
-     */
-    protected $tester;
-
     /**
      * Тест создания реферальной ссылки
      */

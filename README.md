@@ -53,6 +53,15 @@ docker-compose -f docker-compose.yml exec app php /var/www/yii migrate --interac
 - **Пользователь**: internet_income
 - **Пароль**: password
 
+## Пример .env
+
+```bash
+DB_HOST=localhost
+DB_NAME=internet_income
+DB_USER=internet_income
+DB_PASSWORD=password
+```
+
 ## Полезные команды
 
 ### Установка зависимостей

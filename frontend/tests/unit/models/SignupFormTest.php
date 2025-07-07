@@ -3,9 +3,11 @@
 namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;
+use common\enum\UserStatusEnum;
 use frontend\models\SignupForm;
+use common\tests\_support\BaseUnit;
 
-class SignupFormTest extends \Codeception\Test\Unit
+class SignupFormTest extends BaseUnit
 {
     /**
      * @var \frontend\tests\UnitTester
@@ -38,7 +40,7 @@ class SignupFormTest extends \Codeception\Test\Unit
         $user = $this->tester->grabRecord('common\models\User', [
             'username' => 'some_username',
             'email' => 'some_email@example.com',
-            'status' => \common\models\User::STATUS_INACTIVE
+            'status' => UserStatusEnum::INACTIVE
         ]);
 
         $this->tester->seeEmailIsSent();

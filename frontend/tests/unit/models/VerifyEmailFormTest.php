@@ -3,9 +3,11 @@
 namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;
+use common\enum\UserStatusEnum;
 use frontend\models\VerifyEmailForm;
+use common\tests\_support\BaseUnit;
 
-class VerifyEmailFormTest extends \Codeception\Test\Unit
+class VerifyEmailFormTest extends BaseUnit
 {
     /**
      * @var \frontend\tests\UnitTester
@@ -49,7 +51,7 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
 
         verify($user->username)->equals('test.test');
         verify($user->email)->equals('test@mail.com');
-        verify($user->status)->equals(\common\models\User::STATUS_ACTIVE);
+        verify($user->status)->equals(UserStatusEnum::ACTIVE);
         verify($user->validatePassword('Test1234'))->true();
     }
 }

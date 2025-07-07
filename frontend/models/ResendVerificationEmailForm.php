@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use common\models\User;
+use common\enum\UserStatusEnum;
 use yii\base\Model;
 
 class ResendVerificationEmailForm extends Model
@@ -25,7 +26,7 @@ class ResendVerificationEmailForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
-                'filter' => ['status' => User::STATUS_INACTIVE],
+                'filter' => ['status' => UserStatusEnum::INACTIVE],
                 'message' => 'There is no user with this email address.'
             ],
         ];
@@ -40,7 +41,7 @@ class ResendVerificationEmailForm extends Model
     {
         $user = User::findOne([
             'email' => $this->email,
-            'status' => User::STATUS_INACTIVE
+            'status' => UserStatusEnum::INACTIVE
         ]);
 
         if ($user === null) {

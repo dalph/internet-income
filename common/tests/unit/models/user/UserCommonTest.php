@@ -6,7 +6,7 @@ namespace common\tests\unit\models\user;
 
 use common\models\User;
 use common\enum\UserStatusEnum;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Базовые тесты для модели User
@@ -16,7 +16,7 @@ use common\tests\UnitTester;
  * - UserValidationTest - тесты валидации
  * - UserTokenTest - тесты токенов
  */
-class UserCommonTest extends \Codeception\Test\Unit
+class UserCommonTest extends BaseUnit
 {
     /**
      * @var UnitTester

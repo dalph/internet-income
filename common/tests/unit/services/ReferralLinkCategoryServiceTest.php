@@ -7,18 +7,13 @@ namespace common\tests\unit\services;
 use common\services\ReferralLinkCategoryService;
 use common\models\ReferralLinkCategory;
 use common\enum\ReferralLinkCategoryStatusEnum;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тест сервиса ReferralLinkCategoryService
  */
-class ReferralLinkCategoryServiceTest extends \Codeception\Test\Unit
+class ReferralLinkCategoryServiceTest extends BaseUnit
 {
-    /**
-     * @var UnitTester
-     */
-    protected UnitTester $tester;
-
     /**
      * @var ReferralLinkCategoryService
      */
@@ -206,10 +201,14 @@ class ReferralLinkCategoryServiceTest extends \Codeception\Test\Unit
      */
     public function testCreateWhenSaveReturnsFalse()
     {
-        // Создаем категорию с неверными данными (пустое название)
-        $category = $this->service->create('', 'Описание');
+        // Создаем категорию с неверными данными
+        $category = $this->createTestModel(ReferralLinkCategory::class, [
+            'title' => '', // Пустое название - не пройдет валидацию
+        ]);
 
-        $this->assertNull($category);
+        $result = $this->service->create('', 'Описание');
+
+        $this->assertNull($result);
     }
 
     /**
@@ -217,11 +216,10 @@ class ReferralLinkCategoryServiceTest extends \Codeception\Test\Unit
      */
     public function testUpdateWhenSaveReturnsFalse()
     {
-        // Создаем категорию для обновления
         $category = $this->service->create('Исходная категория');
         $this->assertNotNull($category);
 
-        // Пытаемся обновить с неверными данными (пустое название)
+        // Пытаемся обновить с неверными данными
         $result = $this->service->update($category->id, '', 'Описание');
 
         $this->assertNull($result);
@@ -248,26 +246,23 @@ class ReferralLinkCategoryServiceTest extends \Codeception\Test\Unit
     }
 
     /**
-     * Проверяет обновление статуса и приоритета
+     * Тест обновления статуса и приоритета
      */
     public function testUpdateStatusAndPrior()
     {
-        $category = $this->service->create('Категория', 'Описание', ReferralLinkCategoryStatusEnum::STATUS_ACTIVE, 1);
+        $category = $this->service->create('Тестовая категория');
         $this->assertNotNull($category);
 
-        $newStatus = ReferralLinkCategoryStatusEnum::STATUS_INACTIVE;
-        $newPrior = 99;
-
-        $updatedCategory = $this->service->update(
-            $category->id,
-            'Категория',
-            'Описание',
-            $newStatus,
-            $newPrior
+        $result = $this->service->update(
+            $category->id, 
+            'Тестовая категория', 
+            'Описание', 
+            ReferralLinkCategoryStatusEnum::STATUS_INACTIVE, 
+            15
         );
 
-        $this->assertInstanceOf(ReferralLinkCategory::class, $updatedCategory);
-        $this->assertEquals($newStatus, $updatedCategory->status);
-        $this->assertEquals($newPrior, $updatedCategory->prior);
+        $this->assertInstanceOf(ReferralLinkCategory::class, $result);
+        $this->assertEquals(ReferralLinkCategoryStatusEnum::STATUS_INACTIVE, $result->status);
+        $this->assertEquals(15, $result->prior);
     }
 } 

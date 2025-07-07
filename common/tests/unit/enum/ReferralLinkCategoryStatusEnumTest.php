@@ -5,11 +5,12 @@ declare(strict_types = 1);
 namespace common\tests\unit\enum;
 
 use common\enum\ReferralLinkCategoryStatusEnum;
+use common\tests\_support\BaseUnit;
 
 /**
- * Тест enum класса ReferralLinkCategoryStatusEnum
+ * Тест для ReferralLinkCategoryStatusEnum
  */
-class ReferralLinkCategoryStatusEnumTest extends \Codeception\Test\Unit
+class ReferralLinkCategoryStatusEnumTest extends BaseUnit
 {
     /**
      * Тест констант статусов

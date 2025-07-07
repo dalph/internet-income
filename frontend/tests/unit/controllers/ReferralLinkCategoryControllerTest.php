@@ -6,13 +6,13 @@ namespace frontend\tests\unit\controllers;
 
 use frontend\controllers\ReferralLinkCategoryController;
 use common\models\ReferralLinkCategory;
-use Codeception\Test\Unit;
+use common\tests\_support\BaseUnit;
 use Yii;
 
 /**
  * Тест фронтенд контроллера категорий реферальных ссылок
  */
-class ReferralLinkCategoryControllerTest extends Unit
+class ReferralLinkCategoryControllerTest extends BaseUnit
 {
     /**
      * Тест создания контроллера
@@ -32,20 +32,21 @@ class ReferralLinkCategoryControllerTest extends Unit
         $controller = new ReferralLinkCategoryController('test', null);
         
         // Создаем тестовую активную категорию
-        $category = new ReferralLinkCategory();
-        $category->title = 'Test Category';
-        $category->status = 1; // Активная
-        $category->prior = 0;
-        $category->save();
+        $category = $this->createTestModel(ReferralLinkCategory::class, [
+            'title' => 'Test Category',
+            'status' => 1, // Активная
+            'prior' => 0,
+        ]);
+        $this->saveModel($category);
         
-        $foundModel = $controller->findModel((string) $category->id);
+        $foundModel = $this->callProtectedMethod($controller, 'findModel', [(string) $category->id]);
         
         $this->assertInstanceOf(ReferralLinkCategory::class, $foundModel);
         $this->assertEquals($category->id, $foundModel->id);
         $this->assertEquals(1, $foundModel->status); // Активная
         
         // Очистка
-        $category->delete();
+        $this->deleteModel($category);
     }
 
     /**
@@ -58,7 +59,7 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel('999999');
+        $this->callProtectedMethod($controller, 'findModel', ['999999']);
     }
 
     /**
@@ -69,19 +70,20 @@ class ReferralLinkCategoryControllerTest extends Unit
         $controller = new ReferralLinkCategoryController('test', null);
         
         // Создаем тестовую неактивную категорию
-        $category = new ReferralLinkCategory();
-        $category->title = 'Test Inactive Category';
-        $category->status = 0; // Неактивная
-        $category->prior = 0;
-        $category->save();
+        $category = $this->createTestModel(ReferralLinkCategory::class, [
+            'title' => 'Test Inactive Category',
+            'status' => 0, // Неактивная
+            'prior' => 0,
+        ]);
+        $this->saveModel($category);
         
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel((string) $category->id);
+        $this->callProtectedMethod($controller, 'findModel', [(string) $category->id]);
         
         // Очистка
-        $category->delete();
+        $this->deleteModel($category);
     }
 
     /**
@@ -94,7 +96,7 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel(null);
+        $this->callProtectedMethod($controller, 'findModel', [null]);
     }
 
     /**
@@ -107,6 +109,6 @@ class ReferralLinkCategoryControllerTest extends Unit
         $this->expectException(\yii\web\NotFoundHttpException::class);
         $this->expectExceptionMessage('Категория не найдена.');
         
-        $controller->findModel('invalid');
+        $this->callProtectedMethod($controller, 'findModel', ['invalid']);
     }
 } 

@@ -6,18 +6,13 @@ namespace common\tests\unit\models;
 
 use common\models\ReferralLinkCategory;
 use common\enum\ReferralLinkCategoryStatusEnum;
-use common\tests\UnitTester;
+use common\tests\_support\BaseUnit;
 
 /**
- * Тест модели ReferralLinkCategory
+ * Тест для модели ReferralLinkCategory
  */
-class ReferralLinkCategoryTest extends \Codeception\Test\Unit
+class ReferralLinkCategoryTest extends BaseUnit
 {
-    /**
-     * @var UnitTester
-     */
-    protected UnitTester $tester;
-
     /**
      * Тест создания категории
      */

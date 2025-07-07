@@ -2,12 +2,11 @@
 
 namespace frontend\tests\unit\models;
 
-
-use Codeception\Test\Unit;
 use common\fixtures\UserFixture;
 use frontend\models\ResendVerificationEmailForm;
+use common\tests\_support\BaseUnit;
 
-class ResendVerificationEmailFormTest extends Unit
+class ResendVerificationEmailFormTest extends BaseUnit
 {
     /**
      * @var \frontend\tests\UnitTester
@@ -80,6 +79,10 @@ class ResendVerificationEmailFormTest extends Unit
         verify($mail->getTo())->arrayHasKey('test@mail.com');
         verify($mail->getFrom())->arrayHasKey(\Yii::$app->params['supportEmail']);
         verify($mail->getSubject())->equals('Account registration at ' . \Yii::$app->name);
-        verify($mail->toString())->stringContainsString('4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330');
+
+        // Декодируем quoted-printable, если есть
+        $raw = $mail->toString();
+        $decoded = quoted_printable_decode($raw);
+        verify($decoded)->stringContainsString('4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330');
     }
 }

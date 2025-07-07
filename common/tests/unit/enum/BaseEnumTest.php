@@ -7,6 +7,7 @@ namespace common\tests\unit\enum;
 use common\enum\BaseEnum;
 use common\enum\ReferralLinkStatusEnum;
 use common\enum\ReferralLinkCategoryStatusEnum;
+use common\tests\_support\BaseUnit;
 
 /**
  * Тестовый enum для тестирования BaseEnum
@@ -29,9 +30,9 @@ class TestEnum extends BaseEnum
 }
 
 /**
- * Тест базового класса BaseEnum
+ * Тест для базового класса BaseEnum
  */
-class BaseEnumTest extends \Codeception\Test\Unit
+class BaseEnumTest extends BaseUnit
 {
     /**
      * Тест получения констант
