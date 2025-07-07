@@ -42,9 +42,10 @@ AppAsset::register($this);
         ['label' => 'Реферальные ссылки', 'url' => ['/referral-link/index']],
         ['label' => 'Категории', 'url' => ['/referral-link-category/index']],
     ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
-    }
+    // Регистрация отключена - пользователи создаются только администратором
+    // if (Yii::$app->user->isGuest) {
+    //     $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
+    // }
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],

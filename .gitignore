@@ -20,3 +20,6 @@ vendor/
 tests/_output/coverage/
 tests/_output/coverage.xml
 tests/_output/coverage.html
+
+# Banner images
+frontend/web/img/banner/

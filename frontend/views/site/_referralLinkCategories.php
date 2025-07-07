@@ -1,7 +1,8 @@
 <?php
 /**
- * Выводит список категорий реферальных ссылок
+ * Выводит список категорий реферальных ссылок и ссылки без категории
  * @var array $categories
+ * @var array $linksWithoutCategory
  */
 use yii\bootstrap5\Html;
 ?>
@@ -46,6 +47,35 @@ use yii\bootstrap5\Html;
     </div>
 <?php else: ?>
     <div class="text-muted text-center">Категорий нет</div>
+<?php endif; ?>
+
+<?php
+/**
+ * Выводит ссылки без категории
+ */
+if (false === empty($linksWithoutCategory)): ?>
+    <div class="category-item mb-2">
+        <?php
+        /**
+         * Если баннеры скрыты, выводит ссылки в две колонки
+         */
+        if (false === Yii::$app->params['showBanners']):
+        ?>
+            <div class="row row-cols-1 row-cols-md-2 g-3 category-links">
+                <?php foreach ($linksWithoutCategory as $link): ?>
+                    <div class="col">
+                        <?= $this->render('_referralLinkItem', ['link' => $link]) ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="category-links">
+                <?php foreach ($linksWithoutCategory as $link): ?>
+                    <?= $this->render('_referralLinkItem', ['link' => $link]) ?>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 <?php endif; ?>
 
 <?php

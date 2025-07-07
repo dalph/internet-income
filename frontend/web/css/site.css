@@ -143,7 +143,7 @@ html, body {
     flex: 0 0 1200px;
     max-width: 1200px;
     width: 100%;
-    background: #fff;
+    background: #fff url('/img/background3.png') repeat;
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -167,4 +167,47 @@ html, body {
     .site-bg-right {
         display: none;
     }
+}
+
+/* Сетка для блока реферальной ссылки */
+.ref-link-block {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    min-height: 48px;
+    margin-bottom: 16px;
+}
+.ref-link-block .btn {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    grid-column: 1;
+}
+.ref-link-block .ref-link-star {
+    grid-column: 2;
+    margin-left: 8px;
+}
+.ref-link-block .ref-link-info {
+    grid-column: 3;
+    margin-left: 8px;
+}
+
+.ref-link-star, .ref-link-info {
+    min-width: 1em;
+    width: 1em;
+    min-height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-links-row {
+    column-gap: 3rem; /* gap-5 по ширине */
+    row-gap: 1rem;    /* gap-3 по высоте */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
