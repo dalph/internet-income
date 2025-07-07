@@ -5,4 +5,7 @@ return [
     'showHeader' => true,
     'showFooter' => true,
     'showBanners' => true,
+    'banners' => [
+        'left' => [],
+    ],
 ];
