@@ -1,4 +1,4 @@
-.PHONY: up down build restart logs shell composer start
+.PHONY: up down build restart logs shell composer start cache-clear cache-schema cache-assets cache-all runtime-clear clean
 
 # Запуск контейнеров
 up:
@@ -95,5 +95,40 @@ seed-links:
 # Очистка тестовых данных
 seed-clear:
 	docker-compose -f docker-compose.yml exec app php yii seed/clear
+
+# Очистка кеша приложения
+cache-clear:
+	docker-compose -f docker-compose.yml exec app php yii cache/flush-all
+	docker-compose -f docker-compose.yml exec app php yii cache/flush-all -c backend
+	docker-compose -f docker-compose.yml exec app php yii cache/flush-all -c frontend
+
+# Очистка кеша схемы базы данных
+cache-schema:
+	docker-compose -f docker-compose.yml exec app php yii cache/flush-schema
+	docker-compose -f docker-compose.yml exec app php yii cache/flush-schema -c backend
+	docker-compose -f docker-compose.yml exec app php yii cache/flush-schema -c frontend
+
+# Очистка кеша ассетов
+cache-assets:
+	docker-compose -f docker-compose.yml exec app php yii asset/compress --interactive=0
+	docker-compose -f docker-compose.yml exec app php yii asset/compress --interactive=0 -c backend
+	docker-compose -f docker-compose.yml exec app php yii asset/compress --interactive=0 -c frontend
+
+# Очистка всех типов кеша
+cache-all: cache-clear cache-schema cache-assets
+
+# Очистка runtime директорий
+runtime-clear:
+	rm -rf backend/runtime/cache/*
+	rm -rf backend/runtime/debug/*
+	rm -rf backend/runtime/logs/*
+	rm -rf frontend/runtime/cache/*
+	rm -rf frontend/runtime/debug/*
+	rm -rf frontend/runtime/logs/*
+	rm -rf common/runtime/cache/*
+	rm -rf runtime/cache/*
+
+# Полная очистка (кеш + runtime)
+clean: cache-all runtime-clear
 
  

@@ -3,6 +3,7 @@
 /** @var yii\web\View $this */
 /** @var array $topLinks */
 /** @var array $categories */
+/** @var array $linksWithoutCategory */
 
 $this->title = Yii::$app->params['siteTitle'];
 $this->context->layout = 'main';
@@ -19,7 +20,7 @@ $this->context->layout = 'main';
         <div class="row mb-4">
             <div class="col-12">
                 <h3 class="mb-3 text-center">Топовые предложения</h3>
-                <div class="d-flex flex-wrap justify-content-center gap-3">
+                <div class="top-links-row">
                     <?php foreach ($topLinks as $link): ?>
                         <?= $this->render('_referralLinkItem', ['link' => $link->toArray()]) ?>
                     <?php endforeach; ?>
@@ -45,6 +46,7 @@ $this->context->layout = 'main';
             <div class="col-md-5">
                 <?= $this->render('_referralLinkCategories', [
                     'categories' => $categories,
+                    'linksWithoutCategory' => $linksWithoutCategory,
                 ]) ?>
             </div>
         <?php
@@ -53,6 +55,7 @@ $this->context->layout = 'main';
             <div class="col-12">
                 <?= $this->render('_referralLinkCategories', [
                     'categories' => $categories,
+                    'linksWithoutCategory' => $linksWithoutCategory,
                 ]) ?>
             </div>
         <?php

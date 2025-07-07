@@ -13,7 +13,7 @@ use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
+// use frontend\models\SignupForm; // Регистрация отключена
 use frontend\models\ContactForm;
 
 /**
@@ -33,8 +33,8 @@ class SiteController extends Controller
                 'rules' => [
                     [
                         'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
+                        'allow' => false,
+                        'roles' => ['?', '@'],
                     ],
                     [
                         'actions' => ['logout'],
@@ -102,9 +102,20 @@ class SiteController extends Controller
             ];
         }
 
+        // Получить активные ссылки без категории
+        $linksWithoutCategory = \common\models\ReferralLink::find()
+            ->where([
+                'category_id' => null,
+                'status' => \common\enum\ReferralLinkStatusEnum::STATUS_ACTIVE,
+            ])
+            ->orderBy(['is_top' => SORT_DESC, 'prior' => SORT_ASC, 'id' => SORT_DESC])
+            ->asArray()
+            ->all();
+
         return $this->render('index', [
             'topLinks' => $topLinks,
             'categories' => $categories,
+            'linksWithoutCategory' => $linksWithoutCategory,
         ]);
     }
 
@@ -178,20 +189,14 @@ class SiteController extends Controller
 
     /**
      * Signs user up.
+     * Регистрация отключена - пользователи создаются только администратором
      *
      * @return mixed
      */
     public function actionSignup()
     {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
-        }
-
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        Yii::$app->session->setFlash('error', 'Самостоятельная регистрация отключена. Обратитесь к администратору для создания аккаунта.');
+        return $this->goHome();
     }
 
     /**
