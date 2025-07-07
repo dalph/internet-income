@@ -47,6 +47,18 @@ class BaseUnitTest extends BaseUnit
     }
 
     /**
+     * Тест вызова защищённого метода
+     */
+    public function testCallProtectedMethodSimple(): void
+    {
+        $testObject = new TestClass();
+        
+        $result = $this->callProtectedMethod($testObject, 'testMethod');
+        
+        $this->assertEquals('test_result', $result);
+    }
+
+    /**
      * Тест вызова защищённого метода с параметрами
      */
     public function testCallProtectedMethodWithParams(): void
