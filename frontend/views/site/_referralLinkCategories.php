@@ -45,8 +45,6 @@ use yii\bootstrap5\Html;
             </div>
         <?php endforeach; ?>
     </div>
-<?php else: ?>
-    <div class="text-muted text-center">Категорий нет</div>
 <?php endif; ?>
 
 <?php

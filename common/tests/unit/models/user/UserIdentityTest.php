@@ -32,8 +32,8 @@ class UserIdentityTest extends BaseUnit
     public function testFindIdentity()
     {
         $user = new User();
-        $user->username = 'testuser';
-        $user->email = 'test@example.com';
+        $user->username = 'testuser_' . time();
+        $user->email = 'test_' . time() . '@example.com';
         $user->status = UserStatusEnum::ACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
@@ -50,8 +50,8 @@ class UserIdentityTest extends BaseUnit
     public function testFindIdentityInactiveUser()
     {
         $user = new User();
-        $user->username = 'inactive_user';
-        $user->email = 'inactive@example.com';
+        $user->username = 'inactive_user_' . time();
+        $user->email = 'inactive_' . time() . '@example.com';
         $user->status = UserStatusEnum::INACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
@@ -67,8 +67,8 @@ class UserIdentityTest extends BaseUnit
     public function testFindIdentityDeletedUser()
     {
         $user = new User();
-        $user->username = 'deleted_user';
-        $user->email = 'deleted@example.com';
+        $user->username = 'deleted_user_' . time();
+        $user->email = 'deleted_' . time() . '@example.com';
         $user->status = UserStatusEnum::DELETED;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
@@ -92,17 +92,18 @@ class UserIdentityTest extends BaseUnit
      */
     public function testFindByUsername()
     {
+        $username = 'testuser_' . time();
         $user = new User();
-        $user->username = 'testuser';
-        $user->email = 'test@example.com';
+        $user->username = $username;
+        $user->email = 'test_' . time() . '@example.com';
         $user->status = UserStatusEnum::ACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->save();
 
-        $found = User::findByUsername('testuser');
+        $found = User::findByUsername($username);
         $this->assertInstanceOf(User::class, $found);
-        $this->assertEquals('testuser', $found->username);
+        $this->assertEquals($username, $found->username);
     }
 
     /**
@@ -110,15 +111,16 @@ class UserIdentityTest extends BaseUnit
      */
     public function testFindByUsernameInactiveUser()
     {
+        $username = 'inactive_username_' . time();
         $user = new User();
-        $user->username = 'inactive_username';
-        $user->email = 'inactive@example.com';
+        $user->username = $username;
+        $user->email = 'inactive_' . time() . '@example.com';
         $user->status = UserStatusEnum::INACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->save();
 
-        $found = User::findByUsername('inactive_username');
+        $found = User::findByUsername($username);
         $this->assertNull($found);
     }
 
@@ -127,15 +129,16 @@ class UserIdentityTest extends BaseUnit
      */
     public function testFindByUsernameDeletedUser()
     {
+        $username = 'deleted_username_' . time();
         $user = new User();
-        $user->username = 'deleted_username';
-        $user->email = 'deleted@example.com';
+        $user->username = $username;
+        $user->email = 'deleted_' . time() . '@example.com';
         $user->status = UserStatusEnum::DELETED;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');
         $user->save();
 
-        $found = User::findByUsername('deleted_username');
+        $found = User::findByUsername($username);
         $this->assertNull($found);
     }
 
@@ -154,8 +157,8 @@ class UserIdentityTest extends BaseUnit
     public function testGetId()
     {
         $user = new User();
-        $user->username = 'testuser';
-        $user->email = 'test@example.com';
+        $user->username = 'testuser_' . time();
+        $user->email = 'test_' . time() . '@example.com';
         $user->status = UserStatusEnum::ACTIVE;
         $user->auth_key = 'test_auth_key';
         $user->setPassword('password123');

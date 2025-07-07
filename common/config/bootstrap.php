@@ -3,9 +3,14 @@
 use Dotenv\Dotenv;
 
 // Загружаем переменные окружения из .env файла
-if (file_exists(dirname(dirname(__DIR__)) . '/.env')) {
-    $dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__)));
-    $dotenv->load();
+$envPath = dirname(dirname(__DIR__)) . '/.env';
+if (file_exists($envPath)) {
+    $dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__)), null, true);
+    $envArray = $dotenv->load();
+    
+    foreach ($envArray as $key => $value) {
+        putenv("{$key}={$value}");
+    }
 }
 
 Yii::setAlias('@common', dirname(__DIR__));
